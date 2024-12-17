@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>VSB Slide Show</title>
+        <link rel="icon" href="{{ url_for('static', filename='favicon.jpeg') }}" type="image/x-icon">
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                background-color: #000;
+            }
+            #slideshow {
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+            }
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <div id="slideshow">
+        <img id="slideshowImage" src="" alt="Slideshow Image">
+    </div>
+
+    <script>
+        const imgElement = document.getElementById('slideshowImage');
+        let currentImageIndex = 0;
+        const images = {{ images | tojson }};
+
+        // Function to show the next image
+        function showNextImage() {
+            const currentImage = images[currentImageIndex];
+            imgElement.src = `/static/images/${currentImage}`;
+
+            // Move to the next image
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+        }
+
+        // Set an interval to change the image every 3 seconds
+        setInterval(showNextImage, 3000);  // 3000 ms = 3 seconds
+
+        // Show the first image on load
+        showNextImage();
+    </script>
+</body>
+</html>
